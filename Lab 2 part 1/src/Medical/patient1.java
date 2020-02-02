@@ -40,14 +40,12 @@ public class patient1 {
     
     public boolean isPatientNormal(vitalsign vs){  
         
-       
-
        boolean result;        
        if (vs.getAgegroup(vs.getAge()).equals("Newborn")) {
             
              result= (vs.getHeartRate()<120 || vs.getHeartRate()>160) || 
                    (vs.getRespiratoryRate()<30 || vs.getRespiratoryRate()>50) ||
-                   (vs.getSystolicBloodPressure()<80 || vs.getSystolicBloodPressure()>70) ||
+                   (vs.getSystolicBloodPressure()<50 || vs.getSystolicBloodPressure()>70) ||
                    (vs.getWeightKg()<2 || vs.getWeightKg()>3) ||
                    (vs.getWeightPound()<4.5 || vs.getWeightPound()>7);
 
@@ -76,7 +74,7 @@ public class patient1 {
                    (vs.getRespiratoryRate()<20 || vs.getRespiratoryRate()>30) ||
                    (vs.getSystolicBloodPressure()<80 & vs.getSystolicBloodPressure()>110) ||
                    (vs.getWeightKg()<14 || vs.getWeightKg()>18) ||
-                   (vs.getWeightPound()<31 || vs.getWeightPound()>44);
+                   (vs.getWeightPound()<31 || vs.getWeightPound()>40);
 
           
        }else if (vs.getAgegroup(vs.getAge()).equals("School Age"))  {
@@ -121,7 +119,7 @@ public class patient1 {
         double kg;
         double pound;
         
-        for(int i=0; i<6;i++){
+        for(int i=0; i<2;i++){
          vitalsign vs = patient.addvitalsign();
          
          Scanner parameter = new Scanner(System.in);
