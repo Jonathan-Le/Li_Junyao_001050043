@@ -51,6 +51,15 @@ public class Product {
     public String toString() {
         return this.getName(); //To change body of generated methods, choose Tools | Templates.
     }
+
+    public void remove() {
+        
+        this.name=null;
+        this.description=null;
+        this.availNum=0;
+        this.price=0;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
     

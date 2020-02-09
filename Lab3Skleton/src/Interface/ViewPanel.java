@@ -8,6 +8,8 @@ package Interface;
 import Business.Product;
 import javax.swing.JOptionPane;
 import Business.ProductDirectory;
+import java.awt.CardLayout;
+import javax.swing.JPanel;
 /**
  *
  * @author info
@@ -19,13 +21,20 @@ public class ViewPanel extends javax.swing.JPanel {
      */
     private ProductDirectory prodDir;
     private Product product;
-    ViewPanel(Product prod, ProductDirectory accDir) {
+    private JPanel rightPanel;
+    
+    ViewPanel(JPanel rightPanel, ProductDirectory accDir) {
         initComponents();
-        this.product=prod;
-        txtAvailablity.setText(String.valueOf(prod.getAvailNum()));
+        this.rightPanel=rightPanel;
+       
+//        Product prod = accDir.getProductDirectory();
+        for (Product prod : accDir.getProductDirectory()) {
+             txtAvailablity.setText(String.valueOf(prod.getAvailNum()));
         txtPrice.setText(String.valueOf(prod.getPrice()));
         txtProdName.setText(prod.getName());
         txtDesc.setText(prod.getDescription());
+        }
+       
         this.prodDir = accDir;
     }
 
@@ -49,6 +58,7 @@ public class ViewPanel extends javax.swing.JPanel {
         btnSave = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         txtDesc = new javax.swing.JTextField();
+        btnBack = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(153, 153, 255));
 
@@ -84,17 +94,21 @@ public class ViewPanel extends javax.swing.JPanel {
 
         jLabel1.setText("Description");
 
+        btnBack.setText("<Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(67, 67, 67)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(lblHead))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(67, 67, 67)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(lblRoutingNo)
@@ -108,14 +122,22 @@ public class ViewPanel extends javax.swing.JPanel {
                             .addComponent(txtAvailablity)
                             .addComponent(txtPrice)
                             .addComponent(txtProdName)
-                            .addComponent(txtDesc))))
+                            .addComponent(txtDesc)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnBack)
+                        .addGap(25, 25, 25)
+                        .addComponent(lblHead)))
                 .addContainerGap(158, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(lblHead)
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblHead)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnBack)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblRoutingNo)
                     .addComponent(txtProdName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -135,7 +157,7 @@ public class ViewPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave)
                     .addComponent(btnUpdate))
-                .addGap(0, 83, Short.MAX_VALUE))
+                .addGap(0, 82, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -146,6 +168,7 @@ public class ViewPanel extends javax.swing.JPanel {
             txtProdName.setEditable(true);
             txtDesc.setEnabled(true);
             btnSave.setEnabled(true);
+            
             btnUpdate.setEnabled(false);
         
     }//GEN-LAST:event_btnUpdateActionPerformed
@@ -158,18 +181,36 @@ public class ViewPanel extends javax.swing.JPanel {
             txtDesc.setEnabled(false);
             btnSave.setEnabled(false);
             btnUpdate.setEnabled(true);
-        
+
+         try {
+            
             product.setName(txtProdName.getText());
             product.setPrice(Double.parseDouble(txtPrice.getText()));
             product.setAvailNum(Integer.parseInt(txtAvailablity.getText()));
             product.setDescription(txtDesc.getText());
+
+            JOptionPane.showMessageDialog(null, "Account Updated Successfully");
+        } catch (Exception e) {
+            
+            JOptionPane.showMessageDialog(null, "Please input correct format!");
+            
+        }
         
-            JOptionPane.showMessageDialog(null, "Account updated successfully");        
+                    
         
     }//GEN-LAST:event_btnSaveActionPerformed
 
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        rightPanel.remove(this);
+        CardLayout layout = (CardLayout) rightPanel.getLayout();      
+        layout.previous(rightPanel);
+        
+    }//GEN-LAST:event_btnBackActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;

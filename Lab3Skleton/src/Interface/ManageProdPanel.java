@@ -7,7 +7,9 @@ package Interface;
 
 import Business.Product;
 import Business.ProductDirectory;
+import java.awt.CardLayout;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,10 +22,13 @@ public class ManageProdPanel extends javax.swing.JPanel {
      * Creates new form ManageAccountPanel
      */
     private ProductDirectory prodDir;
+    private JPanel rightPanel;
+    
 
-    ManageProdPanel( ProductDirectory prodDir) {
+    ManageProdPanel(JPanel rightPanel, ProductDirectory prodDir) {
         initComponents();
         this.prodDir=prodDir;
+        this.rightPanel=rightPanel;
         populate();
     }
     
@@ -39,6 +44,29 @@ public class ManageProdPanel extends javax.swing.JPanel {
             dtm.addRow(row);
         }
     }
+    
+    public void searchpopulate(){
+        
+        DefaultTableModel dtm = (DefaultTableModel)tblDirectory.getModel();
+//        dtm.removeRow(prodDir.size());
+      
+        dtm.setRowCount(0);
+        String name;
+        name=txtsearch.getText();
+        
+        
+        for(Product a : prodDir.getProductDirectory()){
+            
+            if(a.getName().equals(name)){
+            Object[] row = new Object[dtm.getColumnCount()];
+            row[0]=a;
+            row[1]=a.getAvailNum();
+            row[2]=a.getPrice();
+            dtm.addRow(row);
+            }
+            
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -49,14 +77,50 @@ public class ManageProdPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblDirectory = new javax.swing.JTable();
         lblManage = new javax.swing.JLabel();
         lblSearchAccNo = new javax.swing.JLabel();
         txtsearch = new javax.swing.JTextField();
         btnDelete = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
+        btnView = new javax.swing.JButton();
+        btnSearch = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblDirectory = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(153, 153, 255));
+
+        lblManage.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblManage.setText("Manage Products");
+
+        lblSearchAccNo.setText("Search by Product Name");
+
+        btnDelete.setText("Delete Product");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
+        btnBack.setText("<Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+
+        btnView.setText("View");
+        btnView.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewActionPerformed(evt);
+            }
+        });
+
+        btnSearch.setText("Search");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
 
         tblDirectory.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -74,19 +138,7 @@ public class ManageProdPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tblDirectory);
-
-        lblManage.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        lblManage.setText("Manage Products");
-
-        lblSearchAccNo.setText("Search by Product Name");
-
-        btnDelete.setText("Delete Product");
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
-            }
-        });
+        jScrollPane2.setViewportView(tblDirectory);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -96,32 +148,51 @@ public class ManageProdPanel extends javax.swing.JPanel {
                 .addGap(226, 226, 226)
                 .addComponent(lblManage)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(btnBack)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(80, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(lblSearchAccNo)
-                            .addGap(18, 18, 18)
-                            .addComponent(txtsearch, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(76, 76, 76))
+                    .addComponent(lblSearchAccNo)
+                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(btnSearch)
+                        .addGap(50, 50, 50)
+                        .addComponent(btnView))
+                    .addComponent(txtsearch, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(142, 142, 142))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(90, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(66, 66, 66)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
+                .addContainerGap()
+                .addComponent(btnBack)
+                .addGap(5, 5, 5)
                 .addComponent(lblManage)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(143, 143, 143)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblSearchAccNo)
                     .addComponent(txtsearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnDelete)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDelete)
+                    .addComponent(btnView)
+                    .addComponent(btnSearch))
                 .addContainerGap(127, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(84, 84, 84)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(202, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -141,10 +212,37 @@ public class ManageProdPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        rightPanel.remove(this);
+        CardLayout layout = (CardLayout) rightPanel.getLayout();
+        layout.previous(rightPanel);
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
+        // TODO add your handling code here:
+        
+        ViewPanel panel = new ViewPanel(rightPanel, prodDir);
+        this.rightPanel.add("ViewPanel", panel);
+        CardLayout layout= (CardLayout) rightPanel.getLayout();
+        layout.next(rightPanel);
+        
+        
+    }//GEN-LAST:event_btnViewActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        // TODO add your handling code here:
+        
+        searchpopulate();
+    }//GEN-LAST:event_btnSearchActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnDelete;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton btnSearch;
+    private javax.swing.JButton btnView;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblManage;
     private javax.swing.JLabel lblSearchAccNo;
     private javax.swing.JTable tblDirectory;

@@ -45,4 +45,14 @@ public class ProductDirectory {
         }
         return null;
     }
+
+    public int size() {
+        for (Product prod : productDirectory)
+        {
+        int i=0;
+        i++;
+        return i;
+        }
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

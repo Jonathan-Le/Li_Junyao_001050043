@@ -8,6 +8,8 @@ package Interface;
 import javax.swing.JOptionPane;
 import Business.ProductDirectory;
 import Business.Product;
+import java.awt.CardLayout;
+import javax.swing.JPanel;
 /**
  *
  * @author info
@@ -19,9 +21,12 @@ public class CreateProductJPanel extends javax.swing.JPanel {
      */
     private ProductDirectory prodDir;
     
-    public CreateProductJPanel(ProductDirectory prodDir) {
+    private JPanel rightPanel;
+    
+    public CreateProductJPanel(JPanel rightPanel, ProductDirectory prodDir) {
         initComponents();
         this.prodDir = prodDir;
+        this.rightPanel= rightPanel;
     }
 
     /**
@@ -43,6 +48,7 @@ public class CreateProductJPanel extends javax.swing.JPanel {
         txtPrice = new javax.swing.JTextField();
         txtDescription = new javax.swing.JTextField();
         btnCreate = new javax.swing.JButton();
+        btnback = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(153, 153, 255));
 
@@ -61,6 +67,13 @@ public class CreateProductJPanel extends javax.swing.JPanel {
         btnCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCreateActionPerformed(evt);
+            }
+        });
+
+        btnback.setText("<Back");
+        btnback.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnbackActionPerformed(evt);
             }
         });
 
@@ -88,13 +101,16 @@ public class CreateProductJPanel extends javax.swing.JPanel {
                             .addComponent(txtProdName)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(148, 148, 148)
-                        .addComponent(btnCreate)))
+                        .addComponent(btnCreate))
+                    .addComponent(btnback))
                 .addContainerGap(326, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
+                .addContainerGap()
+                .addComponent(btnback)
+                .addGap(4, 4, 4)
                 .addComponent(lblHead)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -120,20 +136,46 @@ public class CreateProductJPanel extends javax.swing.JPanel {
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
-            Double.parseDouble(txtPrice.getText());
-            Integer.parseInt(txtAvailablity.getText());
-            Product prod = prodDir.addProduct();
+           
+       
+           Product prod = prodDir.addProduct();
+         try {
+             
+            
             prod.setName(txtProdName.getText());
             prod.setAvailNum(Integer.parseInt(txtAvailablity.getText()));
             prod.setPrice(Double.parseDouble(txtPrice.getText()));
             prod.setDescription(txtDescription.getText());
             
+            txtProdName.setText("");
+            txtAvailablity.setText("");
+            txtPrice.setText("");
+            txtDescription.setText("");
+            
+            
             JOptionPane.showMessageDialog(null, "Account Created Successfully");
+        } catch (Exception e) {
+             prodDir.deleteProduct(prod);
+            JOptionPane.showMessageDialog(null, "Please input correct format!");
+        }
+            
+            
+    
+            
+            
     }//GEN-LAST:event_btnCreateActionPerformed
+
+    private void btnbackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbackActionPerformed
+        // TODO add your handling code here:
+        rightPanel.remove(this);
+        CardLayout layout = (CardLayout) rightPanel.getLayout();
+        layout.previous(rightPanel);
+    }//GEN-LAST:event_btnbackActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreate;
+    private javax.swing.JButton btnback;
     private javax.swing.JLabel lblAccNo;
     private javax.swing.JLabel lblBalance;
     private javax.swing.JLabel lblBankName;
