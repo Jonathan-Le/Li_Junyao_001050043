@@ -14,6 +14,7 @@ public class Product {
     private double price;
     private int availNum;
     private String description;
+    private String nString;
     
     public String getName() {
         return name;
