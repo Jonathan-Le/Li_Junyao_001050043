@@ -7,15 +7,17 @@ package Business;
 
 /**
  *
- * @author junyaoli
+ * @author AEDSpring2019
  */
-public class Product {
+public class Product implements Comparable<Product>{
     private String name;
-    private String price;
-    private String  avaiNum;
-    private String description;
+    private double price;
 
-    
+    public Product(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+
     public String getName() {
         return name;
     }
@@ -24,28 +26,18 @@ public class Product {
         this.name = name;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
-    public String getAvaiNum() {
-        return avaiNum;
+    @Override
+    public int compareTo(Product o) {
+        return this.name.compareTo(o.getName());
     }
 
-    public void setAvaiNum(String avaiNum) {
-        this.avaiNum = avaiNum;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
     
 }
